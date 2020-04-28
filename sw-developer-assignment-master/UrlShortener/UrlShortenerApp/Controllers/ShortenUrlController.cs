@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UrlShortenerApp.Controllers
@@ -12,9 +10,35 @@ namespace UrlShortenerApp.Controllers
     public class ShortenUrlController : ControllerBase
     {
         [HttpPost]
-        public string Post([FromBody] string url)
+        public async Task<string> Post([FromBody] string url)
         {
-            return string.Format("TODO: Call 3rd party URL Shortening API to shorten '{0}'", url);
+            var client = new HttpClient();
+            var cleanUriUrl = "https://cleanuri.com/api/v1/shorten";
+            var dictionary = new Dictionary<string, string>
+                {
+                    { "url", url }
+                };
+            var response = await client.PostAsync(cleanUriUrl, new FormUrlEncodedContent(dictionary));
+            if (response.IsSuccessStatusCode)
+            {
+                var shortenedUrl = await response.Content.ReadAsAsync<ShortenedUrl>();
+                return shortenedUrl.result_url;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsAsync<ShortenedUrlError>();
+                return error.error;
+            }
+        }
+
+        public class ShortenedUrl
+        {
+            public string result_url { get; set; }
+        }
+
+        public class ShortenedUrlError
+        {
+            public string error { get; set; }
         }
     }
 }
