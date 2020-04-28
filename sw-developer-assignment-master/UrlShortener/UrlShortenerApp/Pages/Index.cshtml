@@ -19,7 +19,9 @@
         <div id="result" class="row mt-2" style="display:none;">
             <div class="col-12 col-md-10">
                 <input id="short-url" type="text" class="form-control" readonly />
+                <button type="button" class="btn btn-primary w-100" id="copyToClipboard">Copy to Clipboard!</button>
             </div>
+
         </div>
     </form>
 
@@ -36,13 +38,13 @@
                         },
                         body: JSON.stringify($('#url').val())
                     })
-                    .then((response) => {
-                        return response.text();
-                    })
-                    .then((result) => {
-                        $('#short-url').val(result);
-                        $('#result').css('display', 'block');
-                    });
+                        .then((response) => {
+                            return response.text();
+                        })
+                        .then((result) => {
+                            $('#short-url').val(result);
+                            $('#result').css('display', 'block');
+                        });
                 }
             }
 
@@ -56,6 +58,16 @@
 
             $('#shorten').click(() => {
                 shortenUrl();
+            });
+
+            $('#copyToClipboard').click(() => {
+                var $temp = $('<input>');
+                $('body').append($temp);
+                $temp.val($('#short-url').val()).select();
+                document.execCommand("copy");
+                $temp.remove();
+                $('#result').css('display', 'none');
+                $('#url').val('');
             });
         </script>
     }
