@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortenerApp.Services.ShortenUrlService;
 
@@ -19,6 +17,7 @@ namespace UrlShortenerApp.Controllers
         [HttpPost]
         public async Task<string> Post([FromBody] string url)
         {
+            //Consider plan for handling exceptions
             return await shortenUrlService.ShortenUrl(url);           
         }       
     }
