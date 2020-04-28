@@ -29,6 +29,7 @@ namespace UrlShortenerApp
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddHttpClient();
             services.AddSingleton<IShortenUrls, CleanUriUrlShortenerService>();
         }
 

@@ -4,13 +4,16 @@ namespace UrlShortenerAppTests.Services.ShortenUrlService
 {
     public class CleanUriUrlShortenerServiceTests
     {
-        [SetUp]
-        public void Setup()
-        {
+        //TODO: Mocking out the HttpClient is beyond the scope of the project
+
+        [Test]
+        public void CallsCleanUriUrlServiceRespondsWithCorrectValue()
+        {            
+            Assert.Pass();
         }
 
         [Test]
-        public void Test1()
+        public void CallsCleanUriUrlServiceRespondsWithFailedValue()
         {
             Assert.Pass();
         }

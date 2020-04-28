@@ -6,10 +6,16 @@ namespace UrlShortenerApp.Services.ShortenUrlService
 {
     public class CleanUriUrlShortenerService : IShortenUrls
     {
-        public async Task<string> ShortenUrl(string url)
+        private const string cleanUriUrl = "https://cleanuri.com/api/v1/shorten";
+        private readonly HttpClient client;
+
+        public CleanUriUrlShortenerService(IHttpClientFactory httpClientFactory)
         {
-            var client = new HttpClient();
-            var cleanUriUrl = "https://cleanuri.com/api/v1/shorten";
+            client = httpClientFactory.CreateClient();
+        }
+
+        public async Task<string> ShortenUrl(string url)
+        {        
             var dictionary = new Dictionary<string, string>
                 {
                     { "url", url }
